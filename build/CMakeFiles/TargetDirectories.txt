@@ -1,0 +1,3 @@
+C:/CODE/OpenCVSimpleTEST/build/CMakeFiles/SimpleTestOpenCV.dir
+C:/CODE/OpenCVSimpleTEST/build/CMakeFiles/ALL_BUILD.dir
+C:/CODE/OpenCVSimpleTEST/build/CMakeFiles/ZERO_CHECK.dir
