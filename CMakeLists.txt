@@ -32,6 +32,22 @@ set(SENSIA_TOOLCHAIN_FILE "${CMAKE_BINARY_DIR}/generators/conan_toolchain.cmake"
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Buscar SENSIANuc.h, .cpp
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+get_filename_component(FOLDER_DIR ../ ABSOLUTE)
+
+message("SRC_DIR: ${SRC_DIR}")
+message("FOLDER_DIR: ${FOLDER_DIR}")
+
+
+set(SOURCES
+    ${SRC_DIR}/main.cpp
+    ${FOLDER_DIR}/SensiaNuc.cpp
+    ${FOLDER_DIR}/pixel_manager.cpp
+)
+
+message("Sources included: ${SOURCES}")
+
 # Añadir rutas de Conan para encontrar paquetes
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
@@ -52,15 +68,12 @@ find_path(doctest_INCLUDE_DIR
     PATHS ${doctest_PKGCONF_INCLUDE_DIRS}
 )
 
-message("Conan Include Dirs: ${CONAN_INCLUDE_DIRS}")
+# message("Conan Include Dirs: ${CONAN_INCLUDE_DIRS}")
 
 find_package(aravis REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(doctest REQUIRED)
 
-add_executable(${PROJECT_NAME}
-    src/main.cpp
-)
 
 # Condicional para compilar bibliotecas
 if(DEFINED LibRef)
@@ -73,6 +86,9 @@ if(DEFINED LibRef)
 
     endif()
 endif()
+
+include_directories(${FOLDER_DIR})
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CONAN_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CONAN_LIBS} ${OpenCV_LIBS} aravis::aravis)
